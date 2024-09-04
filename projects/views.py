@@ -21,15 +21,19 @@ class ProfileViewSet(viewsets.ModelViewSet):
         return [IsAuthenticated()]
 
     def retrieve(self, request, *args, **kwargs):
-        if request.method == 'GET':
-            profile = get_object_or_404(Profile, pk=kwargs['pk'])
+        profile = get_object_or_404(Profile, pk=kwargs['pk'])
+        certificates = Certificate.objects.filter(
+            profiles=profile).select_related('certifying_institution')
+        projects = profile.projects.all()
 
-            return render(
-                request,
-                'profile_detail.html',
-                {'profile': profile}
-            )
-        return super().retrieve(request, *args, **kwargs)
+        context = {
+            'profile': profile,
+            'certificates': certificates,
+            'projects': projects,
+        }
+
+        return render(request, 'profile_detail.html',
+                      context)
 
 
 class ProjectViewSet(viewsets.ModelViewSet):

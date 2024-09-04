@@ -10,5 +10,36 @@
     <p><strong>GitHub:</strong> <a href="{{ profile.github }}">{{ profile.github }}</a></p>
     <p><strong>LinkedIn:</strong> <a href="{{ profile.linkedin }}">{{ profile.linkedin }}</a></p>
     <p><strong>Bio:</strong> {{ profile.bio }}</p>
+    <h2>Certificates</h2>
+    {% if certificates %}
+        <ul>
+        {% for certificate in certificates %}
+            <li>
+                <strong>{{ certificate.name }}</strong><br>
+                Issued by: {{ certificate.certifying_institution.name }}<br>
+                Institution URL: <a href="{{ certificate.certifying_institution.url }}">{{ certificate.certifying_institution.url }}</a><br>
+                Issued on: {{ certificate.timestamp|date:"Y-m-d" }}
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No certificates available for this profile.</p>
+    {% endif %}
+    <h2>Projects</h2>
+    {% if projects %}
+        <ul>
+        {% for project in projects %}
+            <li>
+                <strong>{{ project.name }}</strong><br>
+                Description: {{ project.description }}<br>
+                GitHub URL: <a href="{{ project.github_url }}">{{ project.github_url }}</a><br>
+                Keyword: {{ project.keyword }}<br>
+                Key Skill: {{ project.key_skill }}
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No projects available for this profile.</p>
+    {% endif %}
 </body>
 </html>
